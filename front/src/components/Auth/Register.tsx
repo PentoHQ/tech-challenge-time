@@ -1,5 +1,12 @@
 import * as React from "react";
+
 import { AuthForm } from "./Auth";
+import { useHistory } from "react-router-dom";
+import  axios  from 'axios'
+import { useState, Dispatch, SetStateAction, useEffect } from "react";
+
+import { inputData } from './Auth'
+
 
 const RegisterFields = [
   {
@@ -29,9 +36,43 @@ const RegisterFields = [
 ];
 
 export const Register = () => {
+
+    const [formInfo, setFormInfo] = (useState({
+        username: '',
+        email: '',
+        password: '',
+        password_confirmation: ''
+      }) as unknown) as [
+        inputData,
+        Dispatch<SetStateAction<{}>>
+      ];
+    
+      const [submitted, setSubmitted] = useState(false);
+    
+      let history = useHistory()
+    
+      useEffect(() => {
+        console.log(formInfo)
+        axios.post('/api/register', formInfo)
+          .then(() => {
+            history.push("/login")
+            console.log('submitted')
+          })
+          .catch(e => {
+            //Todo ERROR HANDLING
+            setFormInfo({
+              username: '',
+              email: '',
+              password: '',
+              password_confirmation: ''
+            })
+          })
+      },[submitted])
+
+
   return (
     <div style={{width: '80vw', height: '100%', backgroundColor: 'hotPink'}}>
-      <AuthForm fields={RegisterFields}/>
+      <AuthForm fields={RegisterFields} formInfo={formInfo} setFormInfo={setFormInfo} setSubmitted={setSubmitted}/>
     </div>
   );
 };
