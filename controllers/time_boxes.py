@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, jsonify, request, g
 from models.time_box import TimeBox, TimeBoxSchema
 from marshmallow import ValidationError
 from app import db, ma
@@ -20,8 +20,16 @@ def create():
     if errors:
         return jsonify(errors), 422  
     new_time_box = TimeBox()
-
+    new_time_box.user = g.current_user
     new_time_box.save()
     db.session.add(new_time_box)
     db.session.commit()
     return jsonify({'id': str(new_time_box.id)}), 201
+
+
+@api.route('/time-box/<int:time_box_id>', methods=['POST'])
+def edit(time_box_id):
+    time_box = TimeBox.query.get(time_box_id)
+    time_box.active = False
+    time_box.save()
+    return time_box_schema.jsonify(time_box), 201
