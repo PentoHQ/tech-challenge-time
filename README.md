@@ -26,3 +26,17 @@ You can fork this repo and use the fork as a basis for your project. We don't ha
 
  - This is technically possible to implement only on the frontend, but please take the opportunity to show your skills on the entire stack 
  - Please focus more on code quality, building a robust service and such, than on the UI.
+
+
+ Steps/Plan:
+
+ Python/Flask/SQLAlchemy Backend 
+ React/ TypeScript Front-End 
+
+ Back-End
+
+ Pre-requisites - PostgresQL/Python
+
+ Set-up Flask, Install Dependencies - flask, flask-sqlalchemy, psycopg2-binary
+
+ 1. App.py and basic Flask app
