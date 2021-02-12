@@ -1,29 +1,35 @@
-import { InputHTMLAttributes, FormEvent, Props } from "react";
+import { InputHTMLAttributes, FormEvent,ChangeEvent  } from "react";
 import * as React from 'react'
 
 interface MyInputProps extends InputHTMLAttributes<HTMLInputElement> {
   value: string;
   label: string;
-  handleInputChange:(e: FormEvent<HTMLInputElement>, label: any) => void;
 }
 
-export class MyInput extends React.Component<MyInputProps & React.InputHTMLAttributes<HTMLInputElement>,{}>{
+class ExtendedInput extends React.Component<MyInputProps & React.InputHTMLAttributes<HTMLInputElement>>{
 
   render() { 
     const 
-       { value, label, handleInputChange, ...props } = this.props;
+       { value, label,...props } = this.props;
     return(
     <div className="input">
       <label htmlFor={value}>{label}</label>
       <br />
+
       <br />
       <input value={value} type="text" {...props} />
     </div>
     )
 };
+
+
 }
 
-// export default MyInput;
+export default ExtendedInput;
+
+
+
+
 
 
 

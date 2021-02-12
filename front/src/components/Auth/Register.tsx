@@ -1,58 +1,37 @@
-import { useState } from 'react'
+import * as React from "react";
+import { AuthForm } from "./Auth";
 
-import * as React from 'react'
+const RegisterFields = [
+  {
+    name: "username",
+    type: 'text',
+    placeholder: "Enter your username here.",
+    label: "username",
+  },
+  {
+    name: "email",
+    type: 'text',
+    placeholder: "Enter your email address here.",
+    label: "email",
+  },
+  {
+    name: "password",
+    type: 'password',
+    placeholder: "Enter your password.",
+    label: "password",
+  },
+  {
+    name: "password_confirmation",
+    type: 'password',
+    placeholder: "Please confirm your password",
+    label: "password_confirmation",
+  },
+];
 
-import { MyInput } from '../common/FormInput'
-
-export interface field {
-  name: string;
-  type: 'text' | 'password';
-  placeholder: string;
-  label: string;
-}
-
-// export interface field {
-//     username: input;
-//     email: input;
-//     password: input;
-//     password_confirmation: input;
-// }
-
-export interface RegisterProps {
-  fields: field[];
-}
-
-const Register: React.FC<RegisterProps> = (props) => {
-  const [registrationInfo, setRegistrationInfo] = useState({})
-  const handleInputChange = (e: React.FormEvent<HTMLInputElement>, label: string) => {
-    const newValue = e.currentTarget.value;
-    setRegistrationInfo({...registrationInfo, [label]: newValue})
-  }
-
-  
- 
+export const Register = () => {
   return (
-    <div>
-    {props.fields.map((field: field) => {
-    <form>
-        <div className="field">
-              <div className="control">
-                <MyInput
-                  className="input"
-                  name={field.name}
-                  placeholder={field.placeholder}
-                  type={field.type}
-                  value={registrationInfo[field.name]}
-                  label={field.label}
-                  handleInputChange={handleInputChange}
-                />
-              </div>
-            </div>
-
-    </form>}
+    <div style={{width: '80vw', height: '100%', backgroundColor: 'hotPink'}}>
+      <AuthForm fields={RegisterFields}/>
     </div>
-
-  )
-}
- 
-export default Register;
+  );
+};
