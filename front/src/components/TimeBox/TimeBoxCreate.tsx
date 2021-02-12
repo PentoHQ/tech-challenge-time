@@ -27,6 +27,8 @@ export const TimeBoxCreate = () => {
     Dispatch<SetStateAction<{}>>
   ];
 
+  const [name, setName] = useState('')
+
   const [end, setEnd] = useState(false);
 
   const [id, setId] = useState();
@@ -70,6 +72,8 @@ export const TimeBoxCreate = () => {
   return (
     <div style={{ width: "80vw", height: "100%", backgroundColor: "hotPink" }}>
       <TimeBoxForm
+        setName={setName}
+        name={name}
         setStart={setStart}
         setEnd={setEnd}
         start={start}

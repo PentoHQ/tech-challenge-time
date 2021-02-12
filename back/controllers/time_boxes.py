@@ -19,7 +19,7 @@ def create():
         valid_data = err.valid_data
     if errors:
         return jsonify(errors), 422  
-    new_time_box = TimeBox()
+    new_time_box = TimeBox(name=json_input['name'])
     new_time_box.user = g.current_user
     new_time_box.save()
     return jsonify({'id': str(new_time_box.id)}), 201

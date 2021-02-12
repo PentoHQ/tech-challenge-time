@@ -6,15 +6,26 @@ import * as Clock from "react-live-clock";
 export interface TimeBoxFormProps {
   start: any;
   end: boolean;
+  name: string;
+  setName:Dispatch<SetStateAction<string>>;
   setStart: Dispatch<SetStateAction<any>>;
   setEnd: Dispatch<SetStateAction<boolean>>;
 }
 
 export const TimeBoxForm: React.FC<TimeBoxFormProps> = (props) => {
-  const { setStart, setEnd, start, end } = props;
+  const { setStart, setEnd, setName, start, end, name } = props;
 
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newValue = e.currentTarget.value;
+    setName(e.currentTarget.value);
+  };
   return (
     <div>
+        <input
+        type={'text'}
+        onChange={onChange}
+        value={name}    
+        />
       <div style={{ height: "100px" }}>
         <button onClick={() => setStart(new Date().getTime())}>Start</button>
       </div>

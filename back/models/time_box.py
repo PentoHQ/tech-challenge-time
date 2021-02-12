@@ -13,13 +13,14 @@ class TimeBox(db.Model, BaseModel):
     user = db.relationship('User', backref='created_time_boxes')
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     active = db.Column(db.Boolean, default=True)
+    name= db.Column(db.String, nullable=False)
 
 class TimeBoxSchema(ma.SQLAlchemySchema, BaseSchema):
     created_time_boxes = fields.Nested('TimeBoxSchema', many=True)
 
     class Meta:
         model = TimeBox
-        fields = ('active','created_at', 'updated_at', 'user_id')
+        fields = ('active','created_at', 'updated_at', 'user_id', 'name')
         sqla_session = db.session
 
     user = fields.Nested('UserSchema')
