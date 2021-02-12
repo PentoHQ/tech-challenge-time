@@ -19,7 +19,7 @@ class TimeBoxSchema(ma.SQLAlchemySchema, BaseSchema):
 
     class Meta:
         model = TimeBox
-        fields = ('active',)
+        fields = ('active','created_at', 'updated_at', 'user_id')
         sqla_session = db.session
 
     user = fields.Nested('UserSchema')
