@@ -28,8 +28,8 @@ def create():
 
 
 @api.route('/time-box/<int:time_box_id>', methods=['POST'])
-def edit(time_box_id):
+def update(time_box_id):
     time_box = TimeBox.query.get(time_box_id)
     time_box.active = False
     time_box.save()
-    return time_box_schema.jsonify(time_box), 201
+    return time_box_schema.jsonify(time_box), 200
