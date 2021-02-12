@@ -1,7 +1,8 @@
 import os
 from app import app
-from controllers import users
+from controllers import time_boxes, users
 
+app.register_blueprint(time_boxes.api, url_prefix='/api')
 app.register_blueprint(users.api, url_prefix='/api')
 
 @app.route('/', defaults={'path': ''})

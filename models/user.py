@@ -14,7 +14,7 @@ class User(db.Model,BaseModel):
     username = db.Column(db.String(40), nullable=False, unique=True)
     email = db.Column(db.String(128), nullable=False, unique=True)
     password_hash = db.Column(db.String(128), nullable=True)
-    # created_time_boxes = fields.Nested('TimeBoxSchema', many=True)
+    created_time_boxes = fields.Nested('TimeBoxSchema', many=True)
     
     @hybrid_property
     def password(self):
