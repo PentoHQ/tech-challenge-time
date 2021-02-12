@@ -1,7 +1,10 @@
 from app import app, db
 from models.user import User, UserSchema
+from models.time_box import TimeBox, TimeBoxSchema
 
 user_schema = UserSchema()
+
+time_box_schema = TimeBoxSchema()
 
 with app.app_context():
     db.drop_all()

@@ -14,7 +14,7 @@ def secure_route(func):
         token = request.headers.get('Authorization').replace('Bearer ', '')
 
         try:
-            payload = jwt.decode(token, secret)
+            payload = jwt.decode(token, secret,'HS256')
         except jwt.ExpiredSignatureError:
             return jsonify({'message': 'Token Expired'}), 401
         except jwt.InvalidTokenError:
