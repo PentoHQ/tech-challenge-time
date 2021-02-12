@@ -6,7 +6,11 @@ name = "pypi"
 [packages]
 flask = "*"
 flask-sqlalchemy = "*"
+flask-marshmallow = "*"
+marshmallow-sqlalchemy = "*"
+flask-bcrypt = "*"
 psycopg2-binary = "*"
+pyjwt = "*"
 
 [dev-packages]
 
