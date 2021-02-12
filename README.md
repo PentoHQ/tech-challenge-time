@@ -78,3 +78,5 @@ LINE 1: ...O users (created_at, updated_at, username, email, password_h...
                                                              ^
 ```
 
+Fix - reseeding as schema changed (duh!)
+
