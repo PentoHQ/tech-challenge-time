@@ -1,6 +1,6 @@
 from functools import wraps
-import jwt
 from flask import request, jsonify, g
+import jwt
 from models.user import User
 from config.environment import secret
 
