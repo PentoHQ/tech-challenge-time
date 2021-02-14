@@ -5,7 +5,7 @@ import { useHistory } from "react-router-dom";
 import axios from "axios";
 import { useState, Dispatch, SetStateAction } from "react";
 import useDidMount from "../CustomHooks/DidMount";
-import cssExports from "../../assets/style.module.scss";
+
 import { inputData } from "./Auth";
 
 const RegisterFields = [
@@ -48,13 +48,12 @@ export const Register = () => {
   let history = useHistory();
 
   useDidMount(() => {
-    console.log(formInfo);
     axios
       .post("/api/register", formInfo)
       .then(() => {
         history.push("/login");
       })
-      .catch((e) => {
+      .catch(() => {
         setErrors(["Something went wrong, please try again"]);
         setFormInfo({
           username: "",
@@ -67,7 +66,7 @@ export const Register = () => {
   }, [submitted]);
 
   return (
-    <div className={cssExports.formStyle}>
+    <div>
       <AuthForm
         fields={RegisterFields}
         errors={errors}

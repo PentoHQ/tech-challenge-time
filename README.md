@@ -13,70 +13,72 @@ It should satisfy these user stories:
 - As a user, I want an overview of my sessions for the day, week and month
 - As a user, I want to be able to close my browser and shut down my computer and still have my sessions visible to me when I power it up again.
 
-## Getting started
+---
 
-You can fork this repo and use the fork as a basis for your project. We don't have any requirements on what stack you use to solve the task, so there is nothing set up beforehand.
+## TIME BOX
 
-## Timing
+Time Box has been built using a Python/Flask-SQLALchemy/React/TypeScript stack
 
-- Don't spend more than a days work on this challenge. We're not looking for perfection, rather try to show us something special and have reasons for your decisions.
-- Get back to us when you have a timeline for when you are done.
+### To Set-Up
 
-## Notes
+The app does require a few things to be in place prior to running locally. We must have:
 
- - This is technically possible to implement only on the frontend, but please take the opportunity to show your skills on the entire stack 
- - Please focus more on code quality, building a robust service and such, than on the UI.
+- Python3 and pipenv
+- PosgreSQL (would ideally have Dockerised but this did not "smoothly" and due to time constraints, had to settle for a local db)
+- Yarn
 
+From the /back directory:
+- ```pipenv run pip freeze > requirements.txt```
+- ```createdb time_boxes```
+- ```python seeds.py```
+- ```pipenv run flask run``` 
 
- Steps/Plan:
+(This should launch your back-end server running on http://127.0.0.1:5000/, if it doesn't something has gone wrong - sorry!)
 
- Python/Flask/SQLAlchemy Backend 
- React/ TypeScript Front-End 
+From the /front directory:
+- ```yarn install```
+- ```yarn serve:react```
 
- Back-End
+(This should launch your front end running at http://localhost:8000/)
 
- Pre-requisites - PostgresQL/Python3/pipenv
+To use the app:
 
- Set-up Flask, Install Dependencies - flask, flask-sqlalchemy, psycopg2-binary, flask_marshmallow
+1. Login or Register 
 
- 1. App.py and basic Flask app
+![image info](./progress_shots/home.png)
+You can use the seeded user with these details if you are too lazy to register yourself:
+    - email: lily@email
+    - password: pass
 
+![image info](./progress_shots/login.png)
 
- First Block - trying to seed db with just one basic user. 
- 
- ``` 
- Traceback (most recent call last):
-  File "/Users/lily/.pyenv/versions/3.9.1/lib/python3.9/site-packages/sqlalchemy/orm/session.py", line 2016, in add
-    state = attributes.instance_state(instance)
-AttributeError: 'dict' object has no attribute '_sa_instance_state'
+Create your own time box by clicking start and then end. If you don't click end and leave the page, your time box will remain active. Don't worry though, you can end it later from the index page. 
 
-The above exception was the direct cause of the following exception:
+![image info](./progress_shots/create.png)
 
-Traceback (most recent call last):
-  File "/Users/lily/Challenges/tech-challenge-time/seeds.py", line 16, in <module>
-    db.session.add(lily)
-  File "/Users/lily/.pyenv/versions/3.9.1/lib/python3.9/site-packages/sqlalchemy/orm/scoping.py", line 163, in do
-    return getattr(self.registry(), name)(*args, **kwargs)
-  File "/Users/lily/.pyenv/versions/3.9.1/lib/python3.9/site-packages/sqlalchemy/orm/session.py", line 2018, in add
-    util.raise_(
-  File "/Users/lily/.pyenv/versions/3.9.1/lib/python3.9/site-packages/sqlalchemy/util/compat.py", line 182, in raise_
-    raise exception
-sqlalchemy.orm.exc.UnmappedInstanceError: Class 'builtins.dict' is not mapped
-```
+Here you can see your time boxes (depending on how many you have made)
 
-Above solved with save, caused by breaking changes in Flask SQLAlchemy since last I used it.
+![image info](./progress_shots/index.png)
 
-Install flask-bcrypt, pyjwt for Auth
+You can filter them too, select a date and a time period and you will see only time boxes from within that range. 
+
+![image info](./progress_shots/filter.png)
 
 
-Block on /api/register 
 
-```
-    cursor.execute(statement, parameters)
-sqlalchemy.exc.ProgrammingError: (psycopg2.errors.UndefinedColumn) column "password_hash" of relation "users" does not exist
-LINE 1: ...O users (created_at, updated_at, username, email, password_h...
-                                                             ^
-```
+Technical details (though not very many):
 
-Fix - reseeding as schema changed (duh!)
+Time boxes are created when you click 'start'. They are updated when you click 'end' (Active: TRUE ---> FALSE)
+
+This means we don't do any actual time setting on the front-end, the time box start and and end times are just defined by the created at and updated at columns in the DB.
+
+I chose this route to avoid potential (JS caused) inconsistencies and also just because it is nice and simple and I like that. Fewer columns and all that. 
+
+There is of course a chance that the JavaScript generated live ticking clock that the user sees might not correspond exactly to the saved time. I think this is ok for now but I would have to consider the implications and test to see if this is noticable to the user. 
+
+
+
+
+
+
 

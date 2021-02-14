@@ -46,7 +46,7 @@ export const AuthForm: React.FC<AuthProps> = (props) => {
   );
 
   return (
-    <div className={cssExports.formStyle}>
+    <div className={cssExports.form}>
       {errors && <h6 className={cssExports.errors}>{errors}</h6>}
       {fields.map((field: field) => (
         <div key={field.name}>{FormInput(field)}</div>

@@ -55,7 +55,7 @@ export const TimeBoxCreate = () => {
   }, [end]);
 
   return (
-    <div className={cssExports.formStyle}>
+    <div className={cssExports.form}>
       <TimeBoxForm
         setName={setName}
         name={name}

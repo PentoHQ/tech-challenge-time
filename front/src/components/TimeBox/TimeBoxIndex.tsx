@@ -116,22 +116,20 @@ export const TimeBoxIndex: React.FC = () => {
           filteredTimeBoxes.map((timeBox: any) => (
             <div key={timeBox.id} className={cssExports.timeBox}>
               {" "}
-              <h3>{timeBox.name}</h3>
-              {<p>Started at: {timeBox.created_at} </p>}
+              <h3 style={{paddingTop:'5px'}}>{timeBox.name}</h3>
+              {<p style={{margin:'0'}} >Started at: {timeBox.created_at} </p>}
               {!timeBox.active ? (
                 <p>Ended: {timeBox.updated_at}</p>
               ) : (
-                <div>
-                  <p id={timeBox.id}>
-                    Still Active
-                    <button
-                      id={timeBox.id.toString()}
-                      onClick={(event) => setId(event)}
-                    >
-                      End Time Box
-                    </button>
-                  </p>
-                </div>
+                <p id={timeBox.id}>
+                  <button
+                    style={{marginTop:'0'}}
+                    id={timeBox.id.toString()}
+                    onClick={(event) => setId(event)}
+                  >
+                    End Time Box
+                  </button>
+                </p>
               )}
             </div>
           ))}
