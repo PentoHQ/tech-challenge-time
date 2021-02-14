@@ -65,6 +65,12 @@ You can filter them too, select a date and a time period and you will see only t
 ![image info](./progress_shots/filter.png)
 
 
+If you don't end your time box it will show like this:
+![image info](./progress_shots/unended.png)
+
+And then like this:
+![image info](./progress_shots/ended.png)
+
 
 Technical details (though not very many):
 
@@ -77,8 +83,4 @@ I chose this route to avoid potential (JS caused) inconsistencies and also just 
 There is of course a chance that the JavaScript generated live ticking clock that the user sees might not correspond exactly to the saved time. I think this is ok for now but I would have to consider the implications and test to see if this is noticable to the user. 
 
 
-
-
-
-
-
+Oh and there are no tests. This is purely because I did not have time to write tests, they would be the next thing to be added and if I had had more time would have been written alongside what I have done here, not after. 
