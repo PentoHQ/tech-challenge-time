@@ -3,23 +3,9 @@ import { useHistory } from "react-router-dom";
 import Auth from "../../lib/Auth";
 import axios from "axios";
 import { useState, Dispatch, SetStateAction, useEffect } from "react";
-
+import cssExports from "../../assets/style.module.scss";
 import { TimeBoxForm } from "./TimeBoxForm";
-
-const TimeBoxOptions = [
-  {
-    name: "start",
-    type: "select",
-    placeholder: "Click to start your time box",
-    label: "start",
-  },
-  {
-    name: "end",
-    type: "select",
-    placeholder: "When you are ready, click here to end your time box",
-    label: "email",
-  },
-];
+import useDidMount from "../CustomHooks/DidMount";
 
 export const TimeBoxCreate = () => {
   const [start, setStart] = (useState() as unknown) as [
@@ -27,7 +13,9 @@ export const TimeBoxCreate = () => {
     Dispatch<SetStateAction<{}>>
   ];
 
-  const [name, setName] = useState('')
+  const [errors, setErrors] = useState("");
+
+  const [name, setName] = useState("");
 
   const [end, setEnd] = useState(false);
 
@@ -35,25 +23,22 @@ export const TimeBoxCreate = () => {
 
   let history = useHistory();
 
-  useEffect(() => {
-    console.log("setting start");
+  useDidMount(() => {
     axios
       .post(
         "/api/time-box",
-        {},
+        { name: name },
         { headers: { Authorization: `Bearer ${Auth.getToken()}` } }
       )
       .then((res) => {
-        console.log(res);
         setId(res.data.id);
       })
       .catch((e) => {
-        //Todo ERROR HANDLING
-        console.log(e);
+        setErrors("There has been a problem");
       });
   }, [start]);
 
-  useEffect(() => {
+  useDidMount(() => {
     axios
       .post(
         `/api/time-box/${id}`,
@@ -70,10 +55,11 @@ export const TimeBoxCreate = () => {
   }, [end]);
 
   return (
-    <div style={{ width: "80vw", height: "100%", backgroundColor: "hotPink" }}>
+    <div className={cssExports.formStyle}>
       <TimeBoxForm
         setName={setName}
         name={name}
+        errors={errors}
         setStart={setStart}
         setEnd={setEnd}
         start={start}

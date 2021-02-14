@@ -1,7 +1,6 @@
 class Auth {
-  static setToken(token) {
+  static setToken(token: any) {
     localStorage.setItem("token", token);
-    console.log(token);
   }
 
   static getToken() {

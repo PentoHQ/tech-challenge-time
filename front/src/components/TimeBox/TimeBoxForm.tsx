@@ -1,50 +1,63 @@
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useState, useEffect } from "react";
 import * as React from "react";
 import * as moment from "moment";
-import * as Clock from "react-live-clock";
-
+import cssExports from "../../assets/style.module.scss";
 export interface TimeBoxFormProps {
   start: any;
   end: boolean;
   name: string;
-  setName:Dispatch<SetStateAction<string>>;
+  errors: string;
+  setName: Dispatch<SetStateAction<string>>;
   setStart: Dispatch<SetStateAction<any>>;
   setEnd: Dispatch<SetStateAction<boolean>>;
 }
 
 export const TimeBoxForm: React.FC<TimeBoxFormProps> = (props) => {
-  const { setStart, setEnd, setName, start, end, name } = props;
+  const { setStart, setEnd, setName, start, end, name, errors } = props;
+
+  const [time, setTime] = useState(moment(new Date().getTime()));
+
+  useEffect(() => {
+    setInterval(() => {
+      setTime(moment(new Date().getTime()));
+    }, 1000);
+  }, [start]);
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = e.currentTarget.value;
     setName(e.currentTarget.value);
   };
   return (
-    <div>
-        <input
-        type={'text'}
+    <div className={cssExports.create}>
+      <input
+        type={"text"}
         onChange={onChange}
-        value={name}    
-        />
-      <div style={{ height: "100px" }}>
-        <button onClick={() => setStart(new Date().getTime())}>Start</button>
+        placeholder={"Enter a name for your Time Box"}
+        value={name}
+      />
+      <div>
+        <button
+          disabled={name && !start ? false : true}
+          onClick={() => setStart(new Date().getTime())}
+        >
+          Start
+        </button>
       </div>
-      {start && !end && (
-        <div style={{ marginTop: "15px" }}>
+      {start && !end && !errors && (
+        <div>
           {moment(start).format("dddd, MMMM Do YYYY, h:mm:ss a")}
-          <div style={{ marginTop: "15px" }}>
-            <Clock format={"HH:mm:ss"} ticking={true} timezone={"GB"} />
-          </div>
+          <div>{moment(time).format("dddd, MMMM Do YYYY, h:mm:ss a")}</div>
         </div>
       )}
-      <div style={{ height: "100px" }}>
+      {errors && <h6 className={cssExports.errors}>{errors}</h6>}
+      <div>
         <button onClick={() => setEnd(true)}>End</button>
         {end && (
           <div>
-            <div style={{ marginTop: "15px" }}>
+            <div className={cssExports.timeBox}>
               {moment(start).format("dddd, MMMM Do YYYY, h:mm:ss a")}
             </div>
-            <div style={{ marginTop: "15px" }}>
+            <div>
               {moment(new Date().getTime()).format(
                 "dddd, MMMM Do YYYY, h:mm:ss a"
               )}

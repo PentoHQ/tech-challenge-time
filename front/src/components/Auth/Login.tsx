@@ -1,9 +1,11 @@
 import * as React from "react";
-
+import Auth from "../../lib/Auth";
 import { AuthForm } from "./Auth";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
 import { useState, Dispatch, SetStateAction, useEffect } from "react";
+import cssExports from "../../assets/style.module.scss";
+import useDidMount from "../CustomHooks/DidMount";
 
 import { inputData } from "./Auth";
 
@@ -32,28 +34,31 @@ export const Login = () => {
 
   let history = useHistory();
 
-  useEffect(() => {
-    console.log(formInfo);
+  const [errors, setErrors] = useState([]);
+
+  useDidMount(() => {
     axios
       .post("/api/login", formInfo)
-      .then(() => {
+      .then((res) => {
+        Auth.setToken(res.data.token);
         history.push("/new-time-box");
-        console.log("submitted");
       })
       .catch((e) => {
-        //Todo ERROR HANDLING
+        setErrors(["Something went wrong, please try again"]);
         setFormInfo({
           email: "",
           password: "",
         });
+        setSubmitted(false);
       });
   }, [submitted]);
 
   return (
-    <div style={{ width: "80vw", height: "100%", backgroundColor: "hotPink" }}>
+    <div>
       <AuthForm
         fields={LoginFields}
         formInfo={formInfo}
+        errors={errors}
         setFormInfo={setFormInfo}
         setSubmitted={setSubmitted}
       />

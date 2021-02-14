@@ -1,0 +1,16 @@
+{
+  "presets": [
+    "@babel/react",
+    "@babel/typescript",
+    [
+      "@babel/env",
+      {
+        "modules": true,
+        "targets": {
+          "chrome": "58",
+          "ie": "11"
+        }
+      }
+    ]
+  ]
+}

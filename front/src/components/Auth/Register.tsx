@@ -2,77 +2,79 @@ import * as React from "react";
 
 import { AuthForm } from "./Auth";
 import { useHistory } from "react-router-dom";
-import  axios  from 'axios'
-import { useState, Dispatch, SetStateAction, useEffect } from "react";
-
-import { inputData } from './Auth'
-
+import axios from "axios";
+import { useState, Dispatch, SetStateAction } from "react";
+import useDidMount from "../CustomHooks/DidMount";
+import cssExports from "../../assets/style.module.scss";
+import { inputData } from "./Auth";
 
 const RegisterFields = [
   {
     name: "username",
-    type: 'text',
-    placeholder: "Enter your username here.",
-    label: "username",
+    type: "text",
+    placeholder: "Please select a username.",
+    label: "Username",
   },
   {
     name: "email",
-    type: 'text',
+    type: "text",
     placeholder: "Enter your email address here.",
-    label: "email",
+    label: "Email",
   },
   {
     name: "password",
-    type: 'password',
+    type: "password",
     placeholder: "Enter your password.",
-    label: "password",
+    label: "Password",
   },
   {
     name: "password_confirmation",
-    type: 'password',
+    type: "password",
     placeholder: "Please confirm your password",
-    label: "password_confirmation",
+    label: "Password Confirmation",
   },
 ];
 
 export const Register = () => {
+  const [formInfo, setFormInfo] = (useState({
+    username: "",
+    email: "",
+    password: "",
+    password_confirmation: "",
+  }) as unknown) as [inputData, Dispatch<SetStateAction<{}>>];
 
-    const [formInfo, setFormInfo] = (useState({
-        username: '',
-        email: '',
-        password: '',
-        password_confirmation: ''
-      }) as unknown) as [
-        inputData,
-        Dispatch<SetStateAction<{}>>
-      ];
-    
-      const [submitted, setSubmitted] = useState(false);
-    
-      let history = useHistory()
-    
-      useEffect(() => {
-        console.log(formInfo)
-        axios.post('/api/register', formInfo)
-          .then(() => {
-            history.push("/login")
-            console.log('submitted')
-          })
-          .catch(e => {
-            //Todo ERROR HANDLING
-            setFormInfo({
-              username: '',
-              email: '',
-              password: '',
-              password_confirmation: ''
-            })
-          })
-      },[submitted])
+  const [submitted, setSubmitted] = useState(false);
+  const [errors, setErrors] = useState([]);
+  let history = useHistory();
 
+  useDidMount(() => {
+    console.log(formInfo);
+    axios
+      .post("/api/register", formInfo)
+      .then(() => {
+        history.push("/login");
+      })
+      .catch((e) => {
+        setErrors(["Something went wrong, please try again"]);
+        setFormInfo({
+          username: "",
+          email: "",
+          password: "",
+          password_confirmation: "",
+        });
+        setSubmitted(false);
+      });
+  }, [submitted]);
 
   return (
-    <div style={{width: '80vw', height: '100%', backgroundColor: 'hotPink'}}>
-      <AuthForm fields={RegisterFields} formInfo={formInfo} setFormInfo={setFormInfo} setSubmitted={setSubmitted}/>
+    <div className={cssExports.formStyle}>
+      <AuthForm
+        fields={RegisterFields}
+        errors={errors}
+        formInfo={formInfo}
+        setFormInfo={setFormInfo}
+        setSubmitted={setSubmitted}
+      />
     </div>
   );
 };

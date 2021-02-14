@@ -2,6 +2,7 @@ import { Dispatch, SetStateAction } from "react";
 import * as React from "react";
 import ExtendedInput from "../common/ExtendedInput";
 
+import cssExports from '../../assets/style.module.scss'
 export interface field {
   name: string;
   type: string;
@@ -20,12 +21,13 @@ export interface inputData {
 export interface AuthProps {
   fields: field[];
   formInfo: inputData;
+  errors: string[];
   setFormInfo: Dispatch<SetStateAction<{}>>;
   setSubmitted: Dispatch<SetStateAction<boolean>>;
 }
 
 export const AuthForm: React.FC<AuthProps> = (props) => {
-  const { fields, formInfo, setFormInfo, setSubmitted } = props;
+  const { fields, formInfo, setFormInfo, setSubmitted, errors} = props;
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = e.currentTarget.value;
@@ -44,7 +46,8 @@ export const AuthForm: React.FC<AuthProps> = (props) => {
   );
 
   return (
-    <div style={{ height: "80vh" }}>
+    <div className={cssExports.formStyle}>
+      {errors && <h6 className={cssExports.errors}>{errors}</h6>}
       {fields.map((field: field) => (
         <div key={field.name}>{FormInput(field)}</div>
       ))}
