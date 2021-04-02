@@ -1,0 +1,10 @@
+.session {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 90vw;
+  max-height: 40px;
+  border: 1px solid grey;
+  padding: 10px;
+  margin: 10px;
+}

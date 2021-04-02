@@ -1,0 +1,24 @@
+.controls button {
+  background-color: white;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+button img {
+  width: 20px;
+  height: 20px;
+  vertical-align: middle;
+}
+
+.start {
+  color: green;
+}
+
+.stop {
+  color: red;
+}
+
+.reset {
+  color: orange;
+}
