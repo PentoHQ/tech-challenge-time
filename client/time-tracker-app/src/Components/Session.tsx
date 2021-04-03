@@ -1,43 +1,65 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import SessionService from "../services/sessions.service";
-
 import "./Session.css";
 import StopWatch from "./StopWatch";
 import Controls from "./Controls";
+import { ISession } from "../models";
 
 const sessionService = new SessionService();
 
 const Session: React.FunctionComponent = () => {
-  const [newSession, toggleNewSession] = useState<boolean>(false);
+  const [newSessionRunning, toggleNewSessionRunning] = useState<boolean>(false);
+  const [sessionName, setSessionName] = useState<string>("");
+  const [sessionLength, setSessionLength] = useState<Array<string>>([]);
   const [reset, setReset] = useState<boolean>(false);
-  // const [res, setRes] = useState<any>();
 
-  useEffect(() => {
-    const fetchSessions = sessionService.getSessions();
-    fetchSessions.then((data) => {
-      console.log(data);
-    });
-    //     .then((data) => {
-    //   console.log(data);
-    // });
-  }, []);
+  const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+    event.preventDefault();
+    setSessionName(event.target.value);
+  };
 
   const onReset = () => {
     setReset(!reset);
-    toggleNewSession(false);
+    toggleNewSessionRunning(false);
   };
 
-  const onSave = () => {};
+  const onSave = () => {
+    const newSession: ISession = {
+      name: sessionName,
+      length: sessionLength.join(':'),
+    };
+    sessionService.saveSessions(newSession);
+  };
+
+  const canSave = () => sessionName !== "" && !newSessionRunning;
+
+  const onToggleHandler = () => {
+    toggleNewSessionRunning(!newSessionRunning);
+  };
+
+  const onGetTimeArrayHandler = (timeArray: Array<string>) => {
+    setSessionLength(timeArray);
+  };
 
   return (
     <div className="session">
-      <input type="text" />
-      <StopWatch onToggle={newSession} onReset={reset} />
+      <input
+        placeholder="Enter your session name"
+        className="session-name-input"
+        value={sessionName}
+        type="text"
+        onChange={handleInput}
+      />
+      <StopWatch
+        onToggle={newSessionRunning}
+        onReset={reset}
+        onGetTimeArray={onGetTimeArrayHandler}
+      />
       <Controls
-        onToggleNewSession={() => toggleNewSession(!newSession)}
+        onToggleNewSession={onToggleHandler}
         onReset={onReset}
         onSave={onSave}
-        canSave={false}
+        canSave={canSave()}
       />
     </div>
   );

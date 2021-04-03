@@ -9,22 +9,34 @@ interface IControlProps {
   canSave: boolean;
 }
 const Controls: React.FunctionComponent<IControlProps> = (props) => {
-  const [running, setRunning] = useState<boolean>(false);
+  const [isTimerRunning, setIsTimeRunning] = useState<boolean>(false);
 
   const onToggle = () => {
-    setRunning(!running);
-    props.onToggleNewSession(!running);
+    setIsTimeRunning(!isTimerRunning);
+    props.onToggleNewSession(!isTimerRunning);
+  };
+
+  const onResetHandler = () => {
+    setIsTimeRunning(false);
+    props.onReset();
   };
 
   return (
     <div className="controls">
-      <button className={`${running ? "stop" : "start"}`} onClick={onToggle}>
-        {running ? "STOP" : "START"}
+      <button
+        className={`${isTimerRunning ? "stop" : "start"}`}
+        onClick={onToggle}
+      >
+        {isTimerRunning ? "STOP" : "START"}
       </button>
-      <button className="reset" onClick={props.onReset}>
+      <button className="reset" onClick={onResetHandler}>
         RESET
       </button>
-      <button>
+      <button
+        disabled={!props.canSave}
+        onClick={props.onSave}
+        className={`${!props.canSave ? "disabled" : ""}`}
+      >
         <img src={save} alt="save" />
       </button>
     </div>

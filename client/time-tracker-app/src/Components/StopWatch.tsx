@@ -5,6 +5,7 @@ import calculateTimer from "../Helper/CalculateTimer";
 interface IStopWatchProps {
   onToggle: boolean;
   onReset: boolean;
+  onGetTimeArray: (timeArray: Array<string>) => void;
 }
 
 const StopWatch: React.FunctionComponent<IStopWatchProps> = (props) => {
@@ -21,11 +22,13 @@ const StopWatch: React.FunctionComponent<IStopWatchProps> = (props) => {
     } else {
       clearInterval(intervalId);
     }
+    props.onGetTimeArray(timeArray);
   }, [props.onToggle]);
 
   useEffect(() => {
     clearInterval(intervalId);
     setTimeInSeconds(0);
+    props.onGetTimeArray(timeArray);
   }, [props.onReset]);
 
   useEffect(() => {

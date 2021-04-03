@@ -1,4 +1,5 @@
 import axios from "axios";
+import {ISession} from "../models";
 
 export default class SessionsService {
   async getSessions() {
@@ -20,20 +21,17 @@ export default class SessionsService {
     }
   }
 
-  saveSessions() {
-      try {
-          return axios
-              .post(
-                  "/sessions"
-              )
-              .then((res) => {
-                  const { data } = res;
-                  console.log(data);
-                  return data;
-              });
-      } catch (err) {
-          console.log(err);
-      }
+  saveSessions(newSession: ISession) {
+    // console.log(newSession);
+    try {
+      return axios.post("/sessions", newSession).then((res) => {
+        // const { data } = res;
+        console.log(newSession);
+        return newSession;
+      });
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   deleteSession(sessionId: string) {}

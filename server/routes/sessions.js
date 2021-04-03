@@ -3,23 +3,15 @@ var router = express.Router();
 
 /* GET sessions. */
 router.get("/", function (req, res, next) {
-  res.send(
-    res.json([
-      { id: 1, username: "gino" },
-      { id: 2, username: "giulio" },
-    ])
-  );
-  // res.send("respond with a resource");
+  res.send([
+    { name: 'Session 1', length: "00:01:13" },
+    { name: 'Session 2', length: "00:03:13" },
+  ]);
 });
 
 router.post("/", function (req, res, next) {
-  res.send(
-    res.json([
-      { id: 1, username: "gino" },
-      { id: 2, username: "giulio" },
-    ])
-  );
-  // res.send("respond with a resource");
+  console.log("requestona", req.body);
+  // console.log("res", res);
 });
 
 module.exports = router;
