@@ -5,7 +5,7 @@ const config = require("../config");
 async function getSessions(page = 1) {
   const offset = helper.getOffset(page, config.listPerPage);
   const rows = await db.query(
-    `SELECT id, name, length 
+    `SELECT id, name, length, created_at 
     FROM sessions LIMIT ?,?`,
     [offset, config.listPerPage]
   );

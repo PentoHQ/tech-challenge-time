@@ -1,10 +1,20 @@
-.container {
+.stopwatch-wrapper {
+  max-height: inherit;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.stopwatch-container {
   display: flex;
   text-align: center;
   font-weight: bold;
   font-size: 25px;
+  max-height: inherit;
+  align-items: center;
+  justify-content: center;
 }
 
-.separator  {
+.separator {
   margin: auto 5px;
 }

@@ -3,3 +3,7 @@
   flex-direction: column;
   align-items: center;
 }
+
+.primary-color {
+  color: #00BFFF;
+}

@@ -1,8 +1,7 @@
 .session {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 90vw;
+  display: grid;
+  grid-template-columns: 2fr 4fr 1fr;
+  width: 70vw;
   max-height: 40px;
   border: 2px solid grey;
   border-radius: 2px;
@@ -11,14 +10,20 @@
   background-color: white;
 }
 
+.session-name-container {
+  text-align: left;
+  max-height: inherit;
+  align-self: center;
+}
+
 .session-name-input {
   border: 1px solid transparent;
+  width: 100%;
   font-size: 1rem;
   font-weight: bold;
   line-height: 1.5;
   color: #333;
   text-align: left;
-  font-family: 'Titillium Web', sans-serif;
-  width: 30%;
+  font-family: "Titillium Web", sans-serif;
   outline: 0;
 }

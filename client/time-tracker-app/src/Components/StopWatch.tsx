@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from "react";
 import "./StopWatch.css";
 import calculateTimer from "../Helper/CalculateTimer";
+import StopWatchControls from "./StopWatchControls";
 
 interface IStopWatchProps {
   onToggle: boolean;
   onReset: boolean;
   onGetTimeArray: (timeArray: Array<string>) => void;
+  loading: boolean;
+  onToggleHandler: () => void;
+  onResetHandler: () => void;
 }
 
 const StopWatch: React.FunctionComponent<IStopWatchProps> = (props) => {
@@ -36,12 +40,19 @@ const StopWatch: React.FunctionComponent<IStopWatchProps> = (props) => {
   }, [timeInSeconds]);
 
   return (
-    <div className="container">
-      <p>{timeArray[0]}</p>
-      <p className="separator">:</p>
-      <p>{timeArray[1]}</p>
-      <p className="separator">:</p>
-      <p>{timeArray[2]}</p>
+    <div className="stopwatch-wrapper">
+      <div className="stopwatch-container">
+        <p>{timeArray[0]}</p>
+        <p className="separator">:</p>
+        <p>{timeArray[1]}</p>
+        <p className="separator">:</p>
+        <p>{timeArray[2]}</p>
+      </div>
+      <StopWatchControls
+        loading={props.loading}
+        onToggleNewSession={props.onToggleHandler}
+        onReset={props.onResetHandler}
+      />
     </div>
   );
 };

@@ -14,3 +14,31 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+button {
+  background-color: white;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 20px;
+  margin: 0 15px;
+  font-family: "Titillium Web", sans-serif;
+  outline: 0;
+  max-height: inherit;
+}
+
+button.action {
+  justify-self: right !important;
+}
+
+.disabled {
+  opacity: 0.4;
+  cursor: unset !important;
+}
+
+button img {
+  width: 30px;
+  height: 30px;
+  vertical-align: middle;
+}
+

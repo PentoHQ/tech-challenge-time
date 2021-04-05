@@ -1,16 +1,16 @@
 import React, { useState } from "react";
-import SessionService from "../services/sessions.service";
 import "./Session.css";
 import StopWatch from "./StopWatch";
-import Controls from "./Controls";
 import { ISession } from "../models";
 import { AxiosResponse } from "axios";
+import SaveButton from "../common/SaveButton";
 
-export interface ISessionProps {
+export interface INewSessionProps {
   onSaveNewSession: (newSession: ISession) => Promise<AxiosResponse>;
+  loading: boolean;
 }
 
-const Session: React.FunctionComponent<ISessionProps> = (props) => {
+const NewSession: React.FunctionComponent<INewSessionProps> = (props) => {
   const [newSessionRunning, toggleNewSessionRunning] = useState<boolean>(false);
   const [sessionName, setSessionName] = useState<string>("");
   const [sessionLength, setSessionLength] = useState<Array<string>>([]);
@@ -40,7 +40,8 @@ const Session: React.FunctionComponent<ISessionProps> = (props) => {
     }
   };
 
-  const canSave = () => sessionName !== "" && !newSessionRunning;
+  const canSave = () =>
+    sessionName !== "" && !newSessionRunning && !props.loading;
 
   const onToggleHandler = () => {
     toggleNewSessionRunning(!newSessionRunning);
@@ -52,7 +53,7 @@ const Session: React.FunctionComponent<ISessionProps> = (props) => {
 
   return (
     <div>
-      <h2>New Sessions</h2>
+      <h2>New Session</h2>
       <div className="session">
         <div className="session-name-container">
           <input
@@ -62,22 +63,25 @@ const Session: React.FunctionComponent<ISessionProps> = (props) => {
             value={sessionName}
             type="text"
             onChange={handleInput}
+            readOnly={props.loading}
           />
         </div>
         <StopWatch
           onToggle={newSessionRunning}
           onReset={reset}
           onGetTimeArray={onGetTimeArrayHandler}
+          loading={props.loading}
+          onToggleHandler={onToggleHandler}
+          onResetHandler={onReset}
         />
-        <Controls
-          onToggleNewSession={onToggleHandler}
-          onReset={onReset}
-          onSave={onSave}
+        <SaveButton
           canSave={canSave()}
+          loading={props.loading}
+          onSave={onSave}
         />
       </div>
     </div>
   );
 };
 
-export default Session;
+export default NewSession;

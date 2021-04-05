@@ -5,4 +5,5 @@ export interface ISession {
 
 export interface IStoredSession extends ISession {
   id: number;
+  created_at: string;
 }
