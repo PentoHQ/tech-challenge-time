@@ -8,6 +8,7 @@ router.get("/", async function (req, res, next) {
     res.json(await sessionService.getSessions(req.query.page));
   } catch (err) {
     console.error(`Error fetching sessions: ${err}`);
+    next(err);
   }
 });
 

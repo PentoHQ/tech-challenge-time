@@ -34,7 +34,7 @@ const NewSession: React.FunctionComponent<INewSessionProps> = (props) => {
     };
     const saveSession = await props.onSaveNewSession(newSession);
 
-    if (saveSession.status === 200) {
+    if (saveSession?.status === 200) {
       setReset(!reset);
       setSessionName("");
     }
