@@ -9,7 +9,7 @@ interface ISaveButtonProps {
 const SaveButton: React.FunctionComponent<ISaveButtonProps> = (props) => {
   return (
     <button
-      disabled={!props.canSave || props.loading}
+      disabled={props.loading}
       onClick={props.onSave}
       className={`${!props.canSave ? "disabled" : ""}  action`}
     >

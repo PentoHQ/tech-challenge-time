@@ -13,6 +13,7 @@ export interface INewSessionProps {
 const NewSession: React.FunctionComponent<INewSessionProps> = (props) => {
   const [newSessionRunning, toggleNewSessionRunning] = useState<boolean>(false);
   const [sessionName, setSessionName] = useState<string>("");
+  const [validationError, setValidationError] = useState<boolean>(false);
   const [sessionLength, setSessionLength] = useState<Array<string>>([]);
   const [reset, setReset] = useState<boolean>(false);
 
@@ -28,6 +29,12 @@ const NewSession: React.FunctionComponent<INewSessionProps> = (props) => {
   };
 
   const onSave = async () => {
+    if (!canSave()) {
+      setValidationError(true);
+      return;
+    }
+    setValidationError(false);
+
     const newSession: ISession = {
       name: sessionName,
       length: sessionLength.join(":"),
@@ -59,7 +66,9 @@ const NewSession: React.FunctionComponent<INewSessionProps> = (props) => {
           <input
             autoFocus
             placeholder="Enter your session name"
-            className="session-name-input"
+            className={`session-name-input ${
+              validationError ? "validation-error" : ""
+            }`}
             value={sessionName}
             type="text"
             onChange={handleInput}

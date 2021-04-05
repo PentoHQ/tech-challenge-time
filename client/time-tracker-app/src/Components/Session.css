@@ -16,6 +16,10 @@
   align-self: center;
 }
 
+.validation-error {
+  border-bottom: 2px solid red !important;
+}
+
 .session-name-input {
   border: 1px solid transparent;
   width: 100%;
