@@ -27,10 +27,17 @@ const StoredSessions: React.FunctionComponent<IStoredSessionsProps> = (
         </button>
         <button
           className="overview"
+          onClick={() => props.onFetchFilteredSessions(OverviewFilter.daily)}
+        >
+          Today
+        </button>
+        <button
+          className="overview"
           onClick={() => props.onFetchFilteredSessions(OverviewFilter.weekly)}
         >
           Last 7 days
         </button>
+
         <button
           className="overview"
           onClick={() => props.onFetchFilteredSessions(OverviewFilter.monthly)}

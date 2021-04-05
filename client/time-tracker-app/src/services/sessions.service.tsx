@@ -14,6 +14,18 @@ export default class SessionsService {
       });
   }
 
+  getTodaySessions() {
+    return axios
+      .get("/sessions/today")
+      .then((res) => {
+        const { data } = res;
+        return data.data;
+      })
+      .catch((error) => {
+        return error;
+      });
+  }
+
   getWeeklySessions() {
     return axios
       .get("/sessions/week")

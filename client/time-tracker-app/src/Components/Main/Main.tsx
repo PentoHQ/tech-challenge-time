@@ -6,7 +6,7 @@ import StoredSessions from "../StoredSessions";
 import { AxiosResponse } from "axios";
 import Loader from "react-loader-spinner";
 import "./Main.css";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Toastify from "../../common/toastify";
 
@@ -15,6 +15,7 @@ const sessionService = new SessionService();
 
 export enum OverviewFilter {
   all = "all",
+  daily = "daily",
   weekly = "weekly",
   monthly = "monthly",
 }
@@ -35,12 +36,16 @@ const Main: React.FunctionComponent = () => {
     setLoading(true);
 
     let fetchedSessions;
-    let successToastMessage = '';
+    let successToastMessage = "";
 
     switch (overview) {
       case OverviewFilter.all:
         fetchedSessions = await sessionService.getSessions();
         successToastMessage = "Sessions fetched!";
+        break;
+      case OverviewFilter.daily:
+        fetchedSessions = await sessionService.getTodaySessions();
+        successToastMessage = "Today's sessions fetched!";
         break;
       case OverviewFilter.weekly:
         fetchedSessions = await sessionService.getWeeklySessions();

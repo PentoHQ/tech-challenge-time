@@ -18,6 +18,22 @@ async function getSessions(page = 1) {
   };
 }
 
+async function getTodaySessions(page = 1) {
+  const offset = helper.getOffset(page, config.listPerPage);
+  const rows = await db.query(
+    `SELECT id, name, length, created_at 
+    FROM sessions WHERE sessions.created_at > CURDATE() ORDER BY created_at DESC LIMIT ?,?`,
+    [offset, config.listPerPage]
+  );
+  const data = helper.emptyOrRows(rows);
+  const meta = { page };
+
+  return {
+    data,
+    meta,
+  };
+}
+
 async function getWeeklySessions(page = 1) {
   const offset = helper.getOffset(page, config.listPerPage);
   const rows = await db.query(
@@ -79,6 +95,7 @@ async function removeSession(sessionId) {
 module.exports = {
   getSessions,
   getWeeklySessions,
+  getTodaySessions,
   getMonthlySessions,
   addSession,
   removeSession,
