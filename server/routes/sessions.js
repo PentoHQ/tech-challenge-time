@@ -1,17 +1,32 @@
 var express = require("express");
 var router = express.Router();
+const sessionService = require("../services/sessions");
 
 /* GET sessions. */
-router.get("/", function (req, res, next) {
-  res.send([
-    { name: 'Session 1', length: "00:01:13" },
-    { name: 'Session 2', length: "00:03:13" },
-  ]);
+router.get("/", async function (req, res, next) {
+  try {
+    res.json(await sessionService.getSessions(req.query.page));
+  } catch (err) {
+    console.error(`Error fetching sessions: ${err}`);
+  }
 });
 
-router.post("/", function (req, res, next) {
-  console.log("requestona", req.body);
-  // console.log("res", res);
+router.post("/", async function (req, res, next) {
+  try {
+    res.json(await sessionService.addSession(req.body));
+  } catch (err) {
+    console.error("Error saving new session", err);
+    next(err);
+  }
+});
+
+router.delete("/:id", async function (req, res, next) {
+  try {
+    res.json(await sessionService.removeSession(req.params.id));
+  } catch (err) {
+    console.error("Error deleting session", err);
+    next(err);
+  }
 });
 
 module.exports = router;

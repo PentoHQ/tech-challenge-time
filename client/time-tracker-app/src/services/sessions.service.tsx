@@ -1,38 +1,35 @@
 import axios from "axios";
-import {ISession} from "../models";
+import { ISession } from "../models";
 
 export default class SessionsService {
   async getSessions() {
     try {
-      return axios
-        .get(
-          "/sessions"
-          //         {
-          //   headers: { "Access-Control-Allow-Origin": "*", },
-          // }
-        )
-        .then((res) => {
-          const { data } = res;
-          console.log(data);
-          return data;
-        });
+      return axios.get("/sessions").then((res) => {
+        const { data } = res;
+        return data.data;
+      });
     } catch (err) {
-      console.log(err);
+      return err;
     }
   }
 
   saveSessions(newSession: ISession) {
-    // console.log(newSession);
     try {
       return axios.post("/sessions", newSession).then((res) => {
-        // const { data } = res;
-        console.log(newSession);
-        return newSession;
+        return res;
       });
     } catch (err) {
-      console.log(err);
+      return err;
     }
   }
 
-  deleteSession(sessionId: string) {}
+  deleteSession(sessionId: number) {
+    try {
+      return axios.delete(`/sessions/${sessionId}`, {
+        params: { id: sessionId },
+      });
+    } catch (err) {
+      return err;
+    }
+  }
 }

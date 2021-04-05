@@ -1,0 +1,28 @@
+.stored-session {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 90vw;
+  max-height: 40px;
+  border: 2px solid grey;
+  border-radius: 2px;
+  padding: 10px;
+  margin: 10px;
+  background-color: white;
+}
+
+.session-name-container {
+  width: 30%;
+  text-align: left;
+}
+
+.session-name-input {
+  border: 1px solid transparent;
+  font-size: 1rem;
+  font-weight: bold;
+  line-height: 1.5;
+  color: #333;
+  width: 100%;
+  font-family: "Titillium Web", sans-serif;
+  outline: 0;
+}

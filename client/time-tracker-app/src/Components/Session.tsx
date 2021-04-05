@@ -4,10 +4,13 @@ import "./Session.css";
 import StopWatch from "./StopWatch";
 import Controls from "./Controls";
 import { ISession } from "../models";
+import { AxiosResponse } from "axios";
 
-const sessionService = new SessionService();
+export interface ISessionProps {
+  onSaveNewSession: (newSession: ISession) => Promise<AxiosResponse>;
+}
 
-const Session: React.FunctionComponent = () => {
+const Session: React.FunctionComponent<ISessionProps> = (props) => {
   const [newSessionRunning, toggleNewSessionRunning] = useState<boolean>(false);
   const [sessionName, setSessionName] = useState<string>("");
   const [sessionLength, setSessionLength] = useState<Array<string>>([]);
@@ -20,15 +23,21 @@ const Session: React.FunctionComponent = () => {
 
   const onReset = () => {
     setReset(!reset);
+    setSessionName("");
     toggleNewSessionRunning(false);
   };
 
-  const onSave = () => {
+  const onSave = async () => {
     const newSession: ISession = {
       name: sessionName,
-      length: sessionLength.join(':'),
+      length: sessionLength.join(":"),
     };
-    sessionService.saveSessions(newSession);
+    const saveSession = await props.onSaveNewSession(newSession);
+
+    if (saveSession.status === 200) {
+      setReset(!reset);
+      setSessionName("");
+    }
   };
 
   const canSave = () => sessionName !== "" && !newSessionRunning;
@@ -42,25 +51,31 @@ const Session: React.FunctionComponent = () => {
   };
 
   return (
-    <div className="session">
-      <input
-        placeholder="Enter your session name"
-        className="session-name-input"
-        value={sessionName}
-        type="text"
-        onChange={handleInput}
-      />
-      <StopWatch
-        onToggle={newSessionRunning}
-        onReset={reset}
-        onGetTimeArray={onGetTimeArrayHandler}
-      />
-      <Controls
-        onToggleNewSession={onToggleHandler}
-        onReset={onReset}
-        onSave={onSave}
-        canSave={canSave()}
-      />
+    <div>
+      <h2>New Sessions</h2>
+      <div className="session">
+        <div className="session-name-container">
+          <input
+            autoFocus
+            placeholder="Enter your session name"
+            className="session-name-input"
+            value={sessionName}
+            type="text"
+            onChange={handleInput}
+          />
+        </div>
+        <StopWatch
+          onToggle={newSessionRunning}
+          onReset={reset}
+          onGetTimeArray={onGetTimeArrayHandler}
+        />
+        <Controls
+          onToggleNewSession={onToggleHandler}
+          onReset={onReset}
+          onSave={onSave}
+          canSave={canSave()}
+        />
+      </div>
     </div>
   );
 };

@@ -1,27 +1,51 @@
 import React, { useEffect, useState } from "react";
 import Session from "../Session";
 import "./Main.css";
-import { ISession } from "../../models";
+import { ISession, IStoredSession } from "../../models";
 import SessionService from "../../services/sessions.service";
 import StoredSessions from "../StoredSessions";
+import {AxiosResponse} from "axios";
 
 const sessionService = new SessionService();
 
 const Main: React.FunctionComponent = () => {
-  const [storedSessions, setStoredSessions] = useState<Array<ISession>>([]);
+  const [storedSessions, setStoredSessions] = useState<Array<IStoredSession>>(
+    []
+  );
 
   useEffect(() => {
-    const fetchSessions = sessionService.getSessions();
-    fetchSessions.then((data) => {
+    fetchSessions();
+  }, []);
+
+  const fetchSessions = () => {
+    sessionService.getSessions().then((data) => {
       setStoredSessions(data);
     });
-  }, []);
+  };
+
+  const saveNewSession = async (newSession: ISession): Promise<AxiosResponse> => {
+    const saveSession = await sessionService.saveSessions(newSession);
+    if (saveSession?.status === 200) {
+      fetchSessions();
+    }
+    return saveSession;
+  };
+
+  const deleteSession = async (sessionId: number) => {
+    const deleteSession = await sessionService.deleteSession(sessionId);
+    if (deleteSession?.status === 200) {
+      fetchSessions();
+    }
+  };
 
   return (
     <div className="wrapper">
-      <div>Time Tracker App</div>
-      <Session />
-      <StoredSessions storedSessions={storedSessions} />
+      <h1>Time Tracker App</h1>
+      <Session onSaveNewSession={saveNewSession} />
+      <StoredSessions
+        storedSessions={storedSessions}
+        onDeleteSession={deleteSession}
+      />
     </div>
   );
 };
