@@ -13,6 +13,12 @@ import Toastify from "../../common/toastify";
 const toastify = new Toastify();
 const sessionService = new SessionService();
 
+export enum OverviewFilter {
+  all = "all",
+  weekly = "weekly",
+  monthly = "monthly",
+}
+
 const Main: React.FunctionComponent = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [storedSessions, setStoredSessions] = useState<Array<IStoredSession>>(
@@ -23,9 +29,28 @@ const Main: React.FunctionComponent = () => {
     fetchSessions();
   }, []);
 
-  const fetchSessions = async () => {
+  const fetchSessions = async (
+    overview: OverviewFilter = OverviewFilter.all
+  ) => {
     setLoading(true);
-    const fetchedSessions = await sessionService.getSessions();
+
+    let fetchedSessions;
+    let successToastMessage = '';
+
+    switch (overview) {
+      case OverviewFilter.all:
+        fetchedSessions = await sessionService.getSessions();
+        successToastMessage = "Sessions fetched!";
+        break;
+      case OverviewFilter.weekly:
+        fetchedSessions = await sessionService.getWeeklySessions();
+        successToastMessage = "Last 7 days sessions fetched!";
+        break;
+      case OverviewFilter.monthly:
+        fetchedSessions = await sessionService.getMonthlySessions();
+        successToastMessage = "Last 31 days sessions fetched!";
+        break;
+    }
 
     if (fetchedSessions.response) {
       setStoredSessions([]);
@@ -35,7 +60,7 @@ const Main: React.FunctionComponent = () => {
 
     if (fetchedSessions) {
       setStoredSessions(fetchedSessions);
-      toastify.infoToast("Sessions fetched!");
+      toastify.infoToast(successToastMessage);
     }
     setLoading(false);
   };
@@ -85,6 +110,7 @@ const Main: React.FunctionComponent = () => {
         loading={loading}
         storedSessions={storedSessions}
         onDeleteSession={deleteSession}
+        onFetchFilteredSessions={fetchSessions}
       />
     </div>
   );

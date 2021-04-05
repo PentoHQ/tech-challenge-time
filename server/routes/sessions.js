@@ -12,6 +12,24 @@ router.get("/", async function (req, res, next) {
   }
 });
 
+router.get("/week", async function (req, res, next) {
+  try {
+    res.json(await sessionService.getWeeklySessions(req.query.page));
+  } catch (err) {
+    console.error(`Error fetching sessions: ${err}`);
+    next(err);
+  }
+});
+
+router.get("/month", async function (req, res, next) {
+  try {
+    res.json(await sessionService.getMonthlySessions(req.query.page));
+  } catch (err) {
+    console.error(`Error fetching sessions: ${err}`);
+    next(err);
+  }
+});
+
 router.post("/", async function (req, res, next) {
   try {
     res.json(await sessionService.addSession(req.body));

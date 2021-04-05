@@ -14,6 +14,30 @@ export default class SessionsService {
       });
   }
 
+  getWeeklySessions() {
+    return axios
+      .get("/sessions/week")
+      .then((res) => {
+        const { data } = res;
+        return data.data;
+      })
+      .catch((error) => {
+        return error;
+      });
+  }
+
+  getMonthlySessions() {
+    return axios
+      .get("/sessions/month")
+      .then((res) => {
+        const { data } = res;
+        return data.data;
+      })
+      .catch((error) => {
+        return error;
+      });
+  }
+
   saveSessions(newSession: ISession) {
     return axios
       .post("/sessions", newSession)

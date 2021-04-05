@@ -6,7 +6,39 @@ async function getSessions(page = 1) {
   const offset = helper.getOffset(page, config.listPerPage);
   const rows = await db.query(
     `SELECT id, name, length, created_at 
-    FROM sessions LIMIT ?,?`,
+    FROM sessions ORDER BY created_at DESC LIMIT ?,?`,
+    [offset, config.listPerPage]
+  );
+  const data = helper.emptyOrRows(rows);
+  const meta = { page };
+
+  return {
+    data,
+    meta,
+  };
+}
+
+async function getWeeklySessions(page = 1) {
+  const offset = helper.getOffset(page, config.listPerPage);
+  const rows = await db.query(
+    `SELECT id, name, length, created_at 
+    FROM sessions WHERE sessions.created_at >= DATE_SUB(CURDATE(), INTERVAL 7 DAY)  ORDER BY created_at DESC LIMIT ?,?`,
+    [offset, config.listPerPage]
+  );
+  const data = helper.emptyOrRows(rows);
+  const meta = { page };
+
+  return {
+    data,
+    meta,
+  };
+}
+
+async function getMonthlySessions(page = 1) {
+  const offset = helper.getOffset(page, config.listPerPage);
+  const rows = await db.query(
+    `SELECT id, name, length, created_at 
+    FROM sessions WHERE sessions.created_at >= DATE_SUB(CURDATE(), INTERVAL 31 DAY) ORDER BY created_at DESC  LIMIT ?,?`,
     [offset, config.listPerPage]
   );
   const data = helper.emptyOrRows(rows);
@@ -46,6 +78,8 @@ async function removeSession(sessionId) {
 
 module.exports = {
   getSessions,
+  getWeeklySessions,
+  getMonthlySessions,
   addSession,
   removeSession,
 };
